@@ -19,8 +19,7 @@ public class ZippoTest {
 
 
                 .then()
-                // Assertion, test, data operations
-
+        // Assertion, test, data operations
         ;
     }
 
@@ -70,7 +69,7 @@ public class ZippoTest {
                 .then()
                 .log().body()    // Returning body json data, log().all()
                 .statusCode(200) // Is return code 200?
-                .body("country",equalTo("United States")) // Is body's country variable equal to "United States"?
+                .body("country", equalTo("United States")) // Is body's country variable equal to "United States"?
         ;
     }
 
@@ -87,7 +86,7 @@ public class ZippoTest {
                 .then()
                 .log().body()    // Returning body json data, log().all()
                 .statusCode(200) // Is return code 200?
-                .body("places[0].state",equalTo("California")) // Is body's country variable equal to "United States"?
+                .body("places[0].state", equalTo("California")) // Is body's country variable equal to "United States"?
         ;
     }
 
@@ -102,9 +101,9 @@ public class ZippoTest {
 
 
                 .then()
-               .log().body()    // Returning body json data, log().all()
+                .log().body()    // Returning body json data, log().all()
                 .statusCode(200) // Is return code 200?
-                .body("places.'place name'",hasItem("Dörtağaç Köyü")) // Is there a "Dörtağaç Köyü" in the place names?
+                .body("places.'place name'", hasItem("Dörtağaç Köyü")) // Is there a "Dörtağaç Köyü" in the place names?
         ;
     }
 
@@ -121,10 +120,9 @@ public class ZippoTest {
                 .then()
                 .log().body()    // Returning body json data, log().all()
                 .statusCode(200) // Is return code 200?
-                .body("places",hasSize(1))
+                .body("places", hasSize(1))
         ;
     }
-
 
     @Test
     public void combinigTest() {
@@ -139,9 +137,9 @@ public class ZippoTest {
                 .then()
                 .log().body()    // Returning body json data, log().all()
                 .statusCode(200) // Is return code 200?
-                .body("places",hasSize(1)) // Is size "1" ?
-                .body("places.state",hasItem("California")) // Does the list in the given path have this item?
-                .body("places[0].'place name'",equalTo("Beverly Hills")) // Is the value in the given path equal to this?
+                .body("places", hasSize(1)) // Is size "1" ?
+                .body("places.state", hasItem("California")) // Does the list in the given path have this item?
+                .body("places[0].'place name'", equalTo("Beverly Hills")) // Is the value in the given path equal to this?
         ;
     }
 
@@ -149,8 +147,8 @@ public class ZippoTest {
     public void pathParamTest() {
 
         given()
-                .pathParam("country","us")
-                .pathParam("zipCode",90210)
+                .pathParam("country", "us")
+                .pathParam("zipCode", 90210)
                 .log().uri()
 
 
@@ -160,6 +158,26 @@ public class ZippoTest {
 
                 .then()
                 //.log().body()    // Returning body json data, log().all()
+                .statusCode(200) // Is return code 200?
+        ;
+    }
+
+    @Test
+    public void queryParamTest() {
+
+        // http://gorest.co.in/public/v1/users?page=3
+
+        given()
+                .param("page", 1) // Adding ?page=1 to the link
+                .log().uri() // Request link
+
+
+                .when()
+                .get("http://gorest.co.in/public/v1/users") // ?page=1
+
+
+                .then()
+                .log().body()    // Returning body json data, log().all()
                 .statusCode(200) // Is return code 200?
         ;
     }
