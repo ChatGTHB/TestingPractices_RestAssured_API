@@ -91,5 +91,22 @@ public class ZippoTest {
         ;
     }
 
+    @Test
+    public void checkHasItem() {
+
+        given()
+
+
+                .when()
+                .get("http://api.zippopotam.us/tr/01000")
+
+
+                .then()
+               .log().body()    // Returning body json data, log().all()
+                .statusCode(200) // Is return code 200?
+                .body("places.'place name'",hasItem("Dörtağaç Köyü")) // Is there a "Dörtağaç Köyü" in the place names?
+        ;
+    }
+
 
 }
