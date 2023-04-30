@@ -108,5 +108,22 @@ public class ZippoTest {
         ;
     }
 
+    @Test
+    public void bodyArrayHasSize() {
+
+        given()
+
+
+                .when()
+                .get("http://api.zippopotam.us/us/90210")
+
+
+                .then()
+                .log().body()    // Returning body json data, log().all()
+                .statusCode(200) // Is return code 200?
+                .body("places",hasSize(1))
+        ;
+    }
+
 
 }
