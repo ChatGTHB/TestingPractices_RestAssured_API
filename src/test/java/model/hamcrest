@@ -1,4 +1,4 @@
-Genel kullanılanlar
+Common uses
 
 equalTo(X) - used to check whether an actual element value is equal to a pre-specified expected element value
 hasItem("value") - used to see whether a collection of elements contains a specific pre-specified item value
