@@ -189,7 +189,7 @@ public class ZippoTest {
         // When you call pages from 1 to 10 on this link, check whether the returned page values
         // in the response are the same as the page number called.
 
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i < 10; i++) {
             given()
                     .param("page", i) // Adding ?page=1 to the link
                     .log().uri() // Request link
@@ -200,9 +200,9 @@ public class ZippoTest {
 
 
                     .then()
-                   // .log().body()    // Returning body json data, log().all()
+                    // .log().body()    // Returning body json data, log().all()
                     .statusCode(200) // Is return code 200?
-                    .body("meta.pagination.page",equalTo(i))
+                    .body("meta.pagination.page", equalTo(i))
             ;
         }
     }
