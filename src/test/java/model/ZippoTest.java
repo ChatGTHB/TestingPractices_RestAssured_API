@@ -74,5 +74,22 @@ public class ZippoTest {
         ;
     }
 
+    @Test
+    public void checkStateInResponseBody() {
+
+        given()
+
+
+                .when()
+                .get("http://api.zippopotam.us/us/90210")
+
+
+                .then()
+                .log().body()    // Returning body json data, log().all()
+                .statusCode(200) // Is return code 200?
+                .body("places[0].state",equalTo("California")) // Is body's country variable equal to "United States"?
+        ;
+    }
+
 
 }
