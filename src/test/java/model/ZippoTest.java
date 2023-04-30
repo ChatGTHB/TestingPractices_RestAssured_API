@@ -109,7 +109,7 @@ public class ZippoTest {
     }
 
     @Test
-    public void bodyArrayHasSize() {
+    public void bodyArrayHasSizeTest() {
 
         given()
 
