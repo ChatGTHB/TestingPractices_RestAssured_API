@@ -1,6 +1,12 @@
 package model;
 
+import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.builder.ResponseSpecBuilder;
+import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
+import io.restassured.specification.RequestSpecification;
+import io.restassured.specification.ResponseSpecification;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.*;
@@ -72,6 +78,15 @@ public class ZippoTest {
                 .body("country", equalTo("United States")) // Is body's country variable equal to "United States"?
         ;
     }
+
+//    PM                            RestAssured
+
+//    body.country                  body("country")
+//    body.'post code'              body("post code")
+//    body.places[0].'place name'   body("places[0].'place name'")
+//    body.places.'place name'      body("places.'place name'")
+//    Returns all place names as an arraylist.
+//    https://jsonpathfinder.com/
 
     @Test
     public void checkStateInResponseBody() {
@@ -165,7 +180,7 @@ public class ZippoTest {
     @Test
     public void queryParamTest() {
 
-        // http://gorest.co.in/public/v1/users?page=3
+        // https://gorest.co.in/public/v1/users?page=3
 
         given()
                 .param("page", 1) // Adding ?page=1 to the link
@@ -205,5 +220,44 @@ public class ZippoTest {
                     .body("meta.pagination.page", equalTo(i))
             ;
         }
+    }
+
+    RequestSpecification requestSpecification;
+    ResponseSpecification responseSpecification;
+
+    @BeforeClass
+    public void setup() {
+
+        baseURI = "https://gorest.co.in/public/v1";
+
+        requestSpecification = new RequestSpecBuilder()
+                .log(LogDetail.URI)
+                .setContentType(ContentType.JSON)
+                .build();
+
+        responseSpecification = new ResponseSpecBuilder()
+                .expectContentType(ContentType.JSON)
+                .log(LogDetail.BODY)
+                .build();
+
+    }
+
+    @Test
+    public void requestResponseSpecification() {
+
+        // https://gorest.co.in/public/v1/users?page=3
+
+        given()
+                .param("page", 1) // Adding ?page=1 to the link
+                .spec(requestSpecification)
+
+
+                .when()
+                .get("/users") // ?page=1
+
+
+                .then()
+                .spec(responseSpecification)
+        ;
     }
 }
