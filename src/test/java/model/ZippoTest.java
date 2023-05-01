@@ -268,21 +268,43 @@ public class ZippoTest {
         String countryName = given().when().get("http://api.zippopotam.us/us/90210").then().log().body().extract().path("country");
 
         System.out.println("countryName = " + countryName);
-        Assert.assertEquals(countryName,"United States");
+        Assert.assertEquals(countryName, "United States");
     }
 
     @Test
     public void extractingJsonPath2() {
 
-        String placeName = given()
-                .when()
-                .get("http://api.zippopotam.us/us/90210")
+        String placeName =
+                given()
 
-                .then()
-                .log().body()
-                .extract().path("places[0].'place name'"); // places[0]['place name']
+                        .when()
+                        .get("http://api.zippopotam.us/us/90210")
+
+                        .then()
+                        .log().body()
+                        .extract().path("places[0].'place name'"); // places[0]['place name']
 
         System.out.println("placeName = " + placeName);
-        Assert.assertEquals(placeName,"Beverly Hills");
+        Assert.assertEquals(placeName, "Beverly Hills");
+    }
+
+    @Test
+    public void extractingJsonPath3() {
+
+        // https://gorest.co.in/public/v1/users --> print the limit information in the returned value.
+
+        int limit =
+                given()
+                        .spec(requestSpecification)
+
+                        .when()
+                        .get("/users")
+
+                        .then()
+                        .log().body()
+                        .extract().path("meta.pagination.limit");
+
+        System.out.println("limit = " + limit);
+
     }
 }
