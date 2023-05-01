@@ -10,6 +10,8 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
@@ -301,10 +303,32 @@ public class ZippoTest {
                         .get("/users")
 
                         .then()
-                        .log().body()
+                        //.log().body()
+                        .statusCode(200)
                         .extract().path("meta.pagination.limit");
 
         System.out.println("limit = " + limit);
 
     }
+
+    @Test
+    public void extractingJsonPath4() {
+
+        // https://gorest.co.in/public/v1/users --> print all ID's in the return value
+
+        ArrayList<Integer> IDs =
+                given()
+                        .spec(requestSpecification)
+
+                        .when()
+                        .get("/users")
+
+                        .then()
+                        //.log().body()
+                        .statusCode(200)
+                        .extract().path("data.id");
+
+        System.out.println("IDs = " + IDs);
+    }
 }
+
