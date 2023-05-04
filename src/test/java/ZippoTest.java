@@ -385,6 +385,8 @@ public class ZippoTest {
 
     @Test
     public void extractJsonAll_POJO(){
+
+        // POJO : Location Object
         Location locationObject=
         given()
 
@@ -400,7 +402,28 @@ public class ZippoTest {
         System.out.println("locationObject.getPlaces() = " + locationObject.getPlaces());
 
         System.out.println(locationObject.getPlaces().get(0).getPlacename());
+    }
 
+    @Test
+    public void extractPOJO_Question(){
+
+        // In the endpoint below, print all the information about the "Dörtağaç Köyü".
+        Location places=
+                given()
+
+                        .when()
+                        .get("http://api.zippopotam.us/tr/01000")
+
+                        .then()
+                        //.log().body()
+                        .extract().body().as(Location.class)
+                ;
+
+        for(Place place:places.getPlaces()){
+            if(place.getPlacename().equalsIgnoreCase("Dörtağaç Köyü")){
+                System.out.println("Dörtağaç Köyü = " + place);
+            }
+        }
     }
 }
 
