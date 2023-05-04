@@ -4,15 +4,17 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import static io.restassured.RestAssured.*;
+import static io.restassured.RestAssured.baseURI;
+import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
 public class ZippoTest {
@@ -316,7 +318,7 @@ public class ZippoTest {
 
         // https://gorest.co.in/public/v1/users --> print all ID's in the return value
 
-        ArrayList<Integer> IDs =
+        List<Integer> IDs =
                 given()
                         .spec(requestSpecification)
 
@@ -336,7 +338,7 @@ public class ZippoTest {
 
         // https://gorest.co.in/public/v1/users --> print all ID's in the return value
 
-        ArrayList<String> names =
+        List<String> names =
                 given()
                         .spec(requestSpecification)
 
@@ -349,6 +351,38 @@ public class ZippoTest {
                         .extract().path("data.name");
 
         System.out.println("Names = " + names);
+    }
+
+    @Test
+    public void extractingJsonPathResponseAll() {
+
+        // https://gorest.co.in/public/v1/users --> print all ID's in the return value
+
+        Response returningData =
+                given()
+                        .spec(requestSpecification)
+
+                        .when()
+                        .get("/users")
+
+                        .then()
+                        //.log().body()
+                        .statusCode(200)
+                        .extract().response(); // Returns all data returned
+
+        List<Integer>IDs=returningData.path("data.id");
+        List<String>names=returningData.path("data.name");
+        int limit=returningData.path("meta.pagination.limit");
+
+        System.out.println("IDs = " + IDs);
+        System.out.println("names = " + names);
+        System.out.println("limit = " + limit);
+
+        Assert.assertTrue(names.contains("Deevakar Nehru Jr."));
+        Assert.assertTrue(IDs.contains(1374004));
+        Assert.assertEquals(limit,10,"Test result is incorrect");
+
+
     }
 }
 
