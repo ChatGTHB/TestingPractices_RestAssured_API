@@ -1,5 +1,3 @@
-package model;
-
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.filter.log.LogDetail;
@@ -7,6 +5,7 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
+import model.Location;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -378,11 +377,50 @@ public class ZippoTest {
         System.out.println("names = " + names);
         System.out.println("limit = " + limit);
 
-        Assert.assertTrue(names.contains("Deevakar Nehru Jr."));
-        Assert.assertTrue(IDs.contains(1374004));
+        Assert.assertTrue(names.contains("Pranay Nayar"));
+        Assert.assertTrue(IDs.contains(1373994));
         Assert.assertEquals(limit,10,"Test result is incorrect");
+    }
 
+    @Test
+    public void extractJsonAll_POJO(){
+        Location locationObject=
+        given()
+
+                .when()
+                .get("http://api.zippopotam.us/us/90210")
+
+                .then()
+              //  .log().body()
+                .extract().body().as(Location.class)
+        ;
+
+        System.out.println("locationObject.getCountry() = " + locationObject.getCountry());
+        System.out.println("locationObject.getPlaces() = " + locationObject.getPlaces());
 
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
