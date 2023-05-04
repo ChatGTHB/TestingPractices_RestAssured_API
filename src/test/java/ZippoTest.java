@@ -6,6 +6,7 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 import model.Location;
+import model.Place;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -397,6 +398,8 @@ public class ZippoTest {
 
         System.out.println("locationObject.getCountry() = " + locationObject.getCountry());
         System.out.println("locationObject.getPlaces() = " + locationObject.getPlaces());
+
+        System.out.println(locationObject.getPlaces().get(0).getPlacename());
 
     }
 }
