@@ -330,5 +330,25 @@ public class ZippoTest {
 
         System.out.println("IDs = " + IDs);
     }
+
+    @Test
+    public void extractingJsonPath5() {
+
+        // https://gorest.co.in/public/v1/users --> print all ID's in the return value
+
+        ArrayList<String> names =
+                given()
+                        .spec(requestSpecification)
+
+                        .when()
+                        .get("/users")
+
+                        .then()
+                        //.log().body()
+                        .statusCode(200)
+                        .extract().path("data.name");
+
+        System.out.println("Names = " + names);
+    }
 }
 
