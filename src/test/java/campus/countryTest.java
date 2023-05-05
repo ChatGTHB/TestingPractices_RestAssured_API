@@ -131,6 +131,18 @@ public class countryTest {
     @Test(dependsOnMethods = "updateCountry")
     public void deleteCountry() {
 
+        given()
+                .spec(requestSpecification)
+                //.log().body() // show outgoing body as log
+
+                .when()
+                .delete("/school-service/api/countries/"+countryID)
+
+                .then()
+                .log().body() // show incoming body as log
+                .statusCode(200)
+        ;
+
     }
 
     @Test(dependsOnMethods = "deleteCountry")
