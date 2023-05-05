@@ -132,7 +132,7 @@ public class countryTest {
 
         given()
                 .spec(requestSpecification)
-                //.log().body() // show outgoing body as log
+                .log().uri()
 
                 .when()
                 .delete("/school-service/api/countries/"+countryID)
@@ -148,14 +148,16 @@ public class countryTest {
 
         given()
                 .spec(requestSpecification)
-                //.log().body() // show outgoing body as log
+                .pathParam("countryID", countryID)
+                .log().uri()
 
                 .when()
-                .delete("/school-service/api/countries/"+countryID)
+                .delete("/school-service/api/countries/{countryID}")
 
                 .then()
                 .log().body() // show incoming body as log
                 .statusCode(400)
+                .body("message",equalTo("Country not found"))
         ;
     }
 }
