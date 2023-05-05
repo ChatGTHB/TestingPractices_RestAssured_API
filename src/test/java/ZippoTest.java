@@ -416,7 +416,10 @@ public class ZippoTest {
 
                         .then()
                         //.log().body()
-                        .statusCode(200)
+                        .statusCode(200
+
+
+                        )
                         .extract().body().as(Location.class)
                 ;
 

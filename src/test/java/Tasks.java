@@ -1,20 +1,34 @@
 
 import io.restassured.http.ContentType;
-import org.testng.Assert;
+import model.ToDo;
 import org.testng.annotations.Test;
 
-import static io.restassured.RestAssured.*;
-import static org.hamcrest.Matchers.*;
+import static io.restassured.RestAssured.given;
 
 public class Tasks {
 
+    /**
+     * Task 1
+     * create a request to https://jsonplaceholder.typicode.com/todos/2
+     * expect status 200
+     * Converting Into POJO
+     */
 
+    @Test
+    public void task1() {
+        ToDo object =
+                given()
 
+                        .when()
+                        .get("https://jsonplaceholder.typicode.com/todos/2")
 
+                        .then()
+                        .log().all()
+                        .statusCode(200)
+                        .extract().body().as(ToDo.class);
 
-
-
-
+        System.out.println("object = " + object);
+    }
 
 
     /**
@@ -25,8 +39,7 @@ public class Tasks {
      */
 
     @Test
-    public void task2()
-    {
+    public void task2() {
         given()
 
                 .when()
@@ -38,6 +51,7 @@ public class Tasks {
                 .contentType(ContentType.TEXT)
         ;
     }
+
 
 
 
