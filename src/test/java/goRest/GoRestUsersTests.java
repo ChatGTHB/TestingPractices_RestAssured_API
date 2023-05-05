@@ -4,15 +4,12 @@ import com.github.javafaker.Faker;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-import static io.restassured.RestAssured.baseURI;
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
+import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.*;
 
 
 public class GoRestUsersTests {
@@ -163,7 +160,7 @@ public class GoRestUsersTests {
                 .put("" + userID)
 
                 .then()
-                 .log().body()
+                .log().body()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
                 .body("id", equalTo(userID))
