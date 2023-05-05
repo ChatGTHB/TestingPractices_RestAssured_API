@@ -21,6 +21,7 @@ public class countryTest {
     Faker faker = new Faker();
     String countryID;
     String countryName;
+    Map<String, String> country;
 
     RequestSpecification requestSpecification;
 
@@ -58,7 +59,7 @@ public class countryTest {
     @Test
     public void createCountry() {
 
-        Map<String, String> country = new HashMap<>();
+        country = new HashMap<>();
 
         countryName = faker.address().country() + faker.number().digits(5);
         country.put("name", countryName);
@@ -90,7 +91,7 @@ public class countryTest {
         given()
 
                 .spec(requestSpecification)
-                .body(countryName)
+                .body(country)
                 .log().body()
 
                 .when()
@@ -99,14 +100,12 @@ public class countryTest {
                 .then()
                 .log().body()
                 .statusCode(400)
-                .body("message", containsString("error.http.400"))
+                .body("message", containsString("already"))
         ;
     }
 
     @Test(dependsOnMethods = "createCountry")
     public void updateCountry() {
-
-        Map<String, String> country = new HashMap<>();
 
         countryName = faker.address().country() + faker.number().digits(7);
         country.put("id", countryID);
