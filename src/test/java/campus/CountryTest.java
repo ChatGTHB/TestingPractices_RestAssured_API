@@ -113,6 +113,7 @@ public class CountryTest {
         country.put("code", faker.address().countryCode() + faker.number().digits(5));
 
         given()
+
                 .spec(requestSpecification)
                 .body(country) // outgoing body
                 //.log().body() // show outgoing body as log
@@ -131,6 +132,7 @@ public class CountryTest {
     public void deleteCountry() {
 
         given()
+
                 .spec(requestSpecification)
                 .log().uri()
 
@@ -147,6 +149,7 @@ public class CountryTest {
     public void deleteCountryNegative() {
 
         given()
+
                 .spec(requestSpecification)
                 .pathParam("countryID", countryID)
                 .log().uri()
