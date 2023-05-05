@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static io.restassured.RestAssured.*;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
 
 
 public class GoRestUsersTests {
@@ -138,7 +138,7 @@ public class GoRestUsersTests {
                 .get("" + userID)
 
                 .then()
-                .log().body()
+               // .log().body()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
                 .body("id", equalTo(userID))
@@ -146,8 +146,27 @@ public class GoRestUsersTests {
 
     }
 
-    @Test
+    @Test(dependsOnMethods = "createUserClass")
     public void updateUser() {
+
+        Map<String, String> updateUser = new HashMap<>();
+        updateUser.put("name", "Kerem Yigit");
+
+        given()
+
+                .spec(requestSpecification)
+                .body(updateUser)
+                .log().uri()
+
+                .when()
+                .put("" + userID)
+
+                .then()
+               // .log().body()
+                .statusCode(200)
+                .contentType(ContentType.JSON)
+                .body("name", equalTo("Kerem Yigit"))
+        ;
     }
 
     @Test
