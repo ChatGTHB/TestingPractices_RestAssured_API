@@ -104,9 +104,9 @@ public class Tasks {
                         .statusCode(200)
                         .contentType(ContentType.JSON)
                         .body("completed", equalTo(false)) // hamcrest
-                        .extract().path("completed");
+                        .extract().path("completed")
+                ;
 
         Assert.assertFalse(completed); // TestNG
     }
-
 }
