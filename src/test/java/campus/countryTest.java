@@ -125,7 +125,6 @@ public class countryTest {
                 .statusCode(200)
                 .body("name", equalTo(countryName))
         ;
-
     }
 
     @Test(dependsOnMethods = "updateCountry")
@@ -142,7 +141,6 @@ public class countryTest {
                 .log().body() // show incoming body as log
                 .statusCode(200)
         ;
-
     }
 
     @Test(dependsOnMethods = "deleteCountry")
@@ -159,6 +157,5 @@ public class countryTest {
                 .log().body() // show incoming body as log
                 .statusCode(400)
         ;
-
     }
 }
