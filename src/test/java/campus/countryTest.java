@@ -37,7 +37,7 @@ public class countryTest {
                 .post("/auth/login")
 
                 .then()
-               // .log().all()
+//                .log().all()
                 .statusCode(200)
                 .extract().response().getDetailedCookies()
         ;
