@@ -20,11 +20,12 @@ public class PathAndJsonPath {
         ;
 
         System.out.println("postCode = " + postCode);
-
     }
 
     @Test
     public void extractingJsonPath() {
+
+        // "post code" : "90210"
 
         int postCode=
 
@@ -35,10 +36,9 @@ public class PathAndJsonPath {
 
                         .then()
                         .log().body()
-                        .extract().jsonPath().getInt("'post code'")
+                        .extract().jsonPath().getInt("'post code'") // Type return is automatic, appropriate type should be given
                 ;
 
         System.out.println("postCode = " + postCode);
-
     }
 }
