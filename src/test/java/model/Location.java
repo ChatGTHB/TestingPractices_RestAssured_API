@@ -43,4 +43,14 @@ public class Location {
     public void setPlaces(ArrayList<Place> places) {
         this.places = places;
     }
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "postcode='" + postcode + '\'' +
+                ", country='" + country + '\'' +
+                ", countryabbreviation='" + countryabbreviation + '\'' +
+                ", places=" + places +
+                '}';
+    }
 }
