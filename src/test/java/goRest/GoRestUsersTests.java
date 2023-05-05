@@ -10,8 +10,9 @@ import org.testng.annotations.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static io.restassured.RestAssured.*;
-import static org.hamcrest.Matchers.*;
+import static io.restassured.RestAssured.baseURI;
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
 
 
 public class GoRestUsersTests {
@@ -51,8 +52,8 @@ public class GoRestUsersTests {
                         .header("Authorization", "Bearer 4b97b6d4f186b3272628a611715896f3ab8577ae2ea6ccb07b24ca2ae90d60fc")
                         .contentType(ContentType.JSON) // Data to be sent is JSON
                         .body("{\"name\":\"" + randomFullName + "\", \"gender\":\"male\", \"email\":\"" + randomEmail + "\", \"status\":\"active\"}")
-                        .log().uri()
-                        .log().body()
+//                        .log().uri()
+//                        .log().body()
 
                         .when()
                         .post("")
@@ -70,11 +71,11 @@ public class GoRestUsersTests {
         String randomFullName = randomGenerator.name().fullName();
         String randomEmail = randomGenerator.internet().emailAddress();
 
-        Map<String,String> newUser=new HashMap<>();
-        newUser.put("name",randomFullName);
-        newUser.put("gender","male");
-        newUser.put("email",randomEmail);
-        newUser.put("status","active");
+        Map<String, String> newUser = new HashMap<>();
+        newUser.put("name", randomFullName);
+        newUser.put("gender", "male");
+        newUser.put("email", randomEmail);
+        newUser.put("status", "active");
 
         userID =
 
@@ -101,11 +102,11 @@ public class GoRestUsersTests {
         String randomFullName = randomGenerator.name().fullName();
         String randomEmail = randomGenerator.internet().emailAddress();
 
-        User newUser=new User();
-        newUser.name=randomFullName;
-        newUser.gender="male";
-        newUser.email=randomEmail;
-        newUser.status="active";
+        User newUser = new User();
+        newUser.name = randomFullName;
+        newUser.gender = "male";
+        newUser.email = randomEmail;
+        newUser.status = "active";
 
         userID =
 
@@ -113,7 +114,7 @@ public class GoRestUsersTests {
                         .header("Authorization", "Bearer 4b97b6d4f186b3272628a611715896f3ab8577ae2ea6ccb07b24ca2ae90d60fc")
                         .contentType(ContentType.JSON) // Data to be sent is JSON
                         .body(newUser)
-//                        .log().uri()
+                        .log().uri()
 //                        .log().body()
 
                         .when()
@@ -138,7 +139,7 @@ public class GoRestUsersTests {
                 .get("" + userID)
 
                 .then()
-               // .log().body()
+                .log().body()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
                 .body("id", equalTo(userID))
@@ -162,18 +163,45 @@ public class GoRestUsersTests {
                 .put("" + userID)
 
                 .then()
-               // .log().body()
+                 .log().body()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
+                .body("id", equalTo(userID))
                 .body("name", equalTo("Kerem Yigit"))
         ;
     }
 
-    @Test
+    @Test(dependsOnMethods = "updateUser")
     public void deleteUser() {
+
+        given()
+
+                .spec(requestSpecification)
+                .log().uri()
+
+                .when()
+                .delete("" + userID)
+
+                .then()
+//                .log().all()
+                .statusCode(204)
+        ;
     }
 
-    @Test
+    @Test(dependsOnMethods = "deleteUser")
     public void deleteUserNegative() {
+
+        given()
+
+                .spec(requestSpecification)
+                .log().uri()
+
+                .when()
+                .delete("" + userID)
+
+                .then()
+//                .log().all()
+                .statusCode(404)
+        ;
     }
 }
