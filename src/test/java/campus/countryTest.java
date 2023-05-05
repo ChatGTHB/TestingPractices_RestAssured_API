@@ -1,5 +1,6 @@
 package campus;
 
+import com.github.javafaker.Faker;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.http.Cookies;
@@ -15,6 +16,10 @@ import static io.restassured.RestAssured.given;
 
 public class countryTest {
 
+    Faker faker = new Faker();
+    String countryID;
+    String countryName;
+
     RequestSpecification requestSpecification;
 
     @BeforeClass
@@ -27,20 +32,19 @@ public class countryTest {
         userCredential.put("password", "TechnoStudy123");
         userCredential.put("rememberMe", "true");
 
-        Cookies cookies=
-        given()
+        Cookies cookies =
+                given()
 
-                .contentType(ContentType.JSON)
-                .body(userCredential)
+                        .contentType(ContentType.JSON)
+                        .body(userCredential)
 
-                .when()
-                .post("/auth/login")
+                        .when()
+                        .post("/auth/login")
 
-                .then()
-//                .log().all()
-                .statusCode(200)
-                .extract().response().getDetailedCookies()
-        ;
+                        .then()
+//                       .log().all()
+                        .statusCode(200)
+                        .extract().response().getDetailedCookies();
 
         requestSpecification = new RequestSpecBuilder()
                 .setContentType(ContentType.JSON)
@@ -51,6 +55,32 @@ public class countryTest {
     @Test
     public void createCountry() {
 
+        Map<String, String> country = new HashMap<>();
+
+        countryName=faker.address().country() + faker.number().digits(5);
+        country.put("name",countryName);
+        country.put("code", faker.address().countryCode() + faker.number().digits(5));
+
+        countryID =
+
+                given()
+
+                        .spec(requestSpecification)
+                        .body(country)
+                        .log().body()
+
+
+                        .when()
+                        .post("/school-service/api/countries")
+
+
+                        .then()
+                        .log().body()
+                        .statusCode(201)
+                        .extract().path("id")
+        ;
+
+        System.out.println("countryID = " + countryID);
     }
 
     @Test(dependsOnMethods = "createCountry")
