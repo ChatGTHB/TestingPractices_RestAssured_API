@@ -13,6 +13,8 @@ import java.util.Map;
 
 import static io.restassured.RestAssured.baseURI;
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
 
 public class countryTest {
 
@@ -33,6 +35,7 @@ public class countryTest {
         userCredential.put("rememberMe", "true");
 
         Cookies cookies =
+
                 given()
 
                         .contentType(ContentType.JSON)
@@ -57,8 +60,8 @@ public class countryTest {
 
         Map<String, String> country = new HashMap<>();
 
-        countryName=faker.address().country() + faker.number().digits(5);
-        country.put("name",countryName);
+        countryName = faker.address().country() + faker.number().digits(5);
+        country.put("name", countryName);
         country.put("code", faker.address().countryCode() + faker.number().digits(5));
 
         countryID =
@@ -69,10 +72,8 @@ public class countryTest {
                         .body(country)
                         .log().body()
 
-
                         .when()
                         .post("/school-service/api/countries")
-
 
                         .then()
                         .log().body()
@@ -86,10 +87,45 @@ public class countryTest {
     @Test(dependsOnMethods = "createCountry")
     public void createCountryNegative() {
 
+        given()
+
+                .spec(requestSpecification)
+                .body(countryName)
+                .log().body()
+
+                .when()
+                .post("/school-service/api/countries")
+
+                .then()
+                .log().body()
+                .statusCode(400)
+                .body("message", containsString("error.http.400"))
+        ;
     }
 
     @Test(dependsOnMethods = "createCountry")
     public void updateCountry() {
+
+        Map<String, String> country = new HashMap<>();
+
+        countryName = faker.address().country() + faker.number().digits(7);
+        country.put("id", countryID);
+        country.put("name", countryName);
+        country.put("code", faker.address().countryCode() + faker.number().digits(5));
+
+        given()
+                .spec(requestSpecification)
+                .body(country) // outgoing body
+                //.log().body() // show outgoing body as log
+
+                .when()
+                .put("/school-service/api/countries")
+
+                .then()
+                .log().body() // show incoming body as log
+                .statusCode(200)
+                .body("name", equalTo(countryName))
+        ;
 
     }
 
