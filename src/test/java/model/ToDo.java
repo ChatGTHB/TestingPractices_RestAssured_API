@@ -5,7 +5,7 @@ public class ToDo {
     int userId;
     int id;
     String title;
-    String completed;
+    boolean completed;
 
     public int getUserId() {
         return userId;
@@ -31,11 +31,11 @@ public class ToDo {
         this.title = title;
     }
 
-    public String getCompleted() {
+    public boolean getCompleted() {
         return completed;
     }
 
-    public void setCompleted(String completed) {
+    public void setCompleted(boolean completed) {
         this.completed = completed;
     }
 
