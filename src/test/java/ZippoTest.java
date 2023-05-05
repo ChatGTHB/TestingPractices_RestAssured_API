@@ -72,10 +72,8 @@ public class ZippoTest {
 
         given()
 
-
                 .when()
                 .get("http://api.zippopotam.us/us/90210")
-
 
                 .then()
                 .log().body()    // Returning body json data, log().all()
@@ -98,10 +96,8 @@ public class ZippoTest {
 
         given()
 
-
                 .when()
                 .get("http://api.zippopotam.us/us/90210")
-
 
                 .then()
                 .log().body()    // Returning body json data, log().all()
@@ -115,10 +111,8 @@ public class ZippoTest {
 
         given()
 
-
                 .when()
                 .get("http://api.zippopotam.us/tr/01000")
-
 
                 .then()
                 .log().body()    // Returning body json data, log().all()
@@ -132,10 +126,8 @@ public class ZippoTest {
 
         given()
 
-
                 .when()
                 .get("http://api.zippopotam.us/us/90210")
-
 
                 .then()
                 .log().body()    // Returning body json data, log().all()
@@ -149,10 +141,8 @@ public class ZippoTest {
 
         given()
 
-
                 .when()
                 .get("http://api.zippopotam.us/us/90210")
-
 
                 .then()
                 .log().body()    // Returning body json data, log().all()
@@ -171,10 +161,8 @@ public class ZippoTest {
                 .pathParam("zipCode", 90210)
                 .log().uri()
 
-
                 .when()
                 .get("http://api.zippopotam.us/{country}/{zipCode}")
-
 
                 .then()
                 //.log().body()    // Returning body json data, log().all()
@@ -191,10 +179,8 @@ public class ZippoTest {
                 .param("page", 1) // Adding ?page=1 to the link
                 .log().uri() // Request link
 
-
                 .when()
                 .get("http://gorest.co.in/public/v1/users") // ?page=1
-
 
                 .then()
                 .log().body()    // Returning body json data, log().all()
@@ -214,10 +200,8 @@ public class ZippoTest {
                     .param("page", i) // Adding ?page=1 to the link
                     .log().uri() // Request link
 
-
                     .when()
                     .get("http://gorest.co.in/public/v1/users") // ?page=1
-
 
                     .then()
                     // .log().body()    // Returning body json data, log().all()
@@ -256,10 +240,8 @@ public class ZippoTest {
                 .param("page", 1) // Adding ?page=1 to the link
                 .spec(requestSpecification)
 
-
                 .when()
                 .get("/users") // ?page=1
-
 
                 .then()
                 .spec(responseSpecification)
@@ -416,10 +398,7 @@ public class ZippoTest {
 
                         .then()
                         //.log().body()
-                        .statusCode(200
-
-
-                        )
+                        .statusCode(200)
                         .extract().body().as(Location.class)
                 ;
 
