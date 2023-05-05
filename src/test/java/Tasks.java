@@ -1,6 +1,7 @@
 
 import io.restassured.http.ContentType;
 import model.ToDo;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
@@ -17,7 +18,9 @@ public class Tasks {
 
     @Test
     public void task1() {
+
         ToDo object =
+
                 given()
 
                         .when()
@@ -40,6 +43,7 @@ public class Tasks {
 
     @Test
     public void task2() {
+
         given()
 
                 .when()
@@ -74,6 +78,35 @@ public class Tasks {
                 .contentType(ContentType.JSON)
                 .body("title", equalTo("quis ut nam facilis et officia qui"))
         ;
+    }
+
+    /**
+     * Task 4
+     * create a request to https://jsonplaceholder.typicode.com/todos/2
+     * expect status 200
+     * expect content type JSON
+     * expect response completed status to be false(hamcrest)
+     * extract completed field and testNG assertion(testNG)
+     */
+
+    @Test
+    public void task4() {
+
+        boolean completed =
+
+                given()
+
+                        .when()
+                        .get("https://jsonplaceholder.typicode.com/todos/2")
+
+                        .then()
+                        .log().body()
+                        .statusCode(200)
+                        .contentType(ContentType.JSON)
+                        .body("completed", equalTo(false))
+                        .extract().path("completed");
+
+        Assert.assertFalse(completed);
     }
 
 }
