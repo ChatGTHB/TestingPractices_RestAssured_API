@@ -1,1 +1,1 @@
-# RestAssuredExercise
+# Current Rest Assured Training Practices
