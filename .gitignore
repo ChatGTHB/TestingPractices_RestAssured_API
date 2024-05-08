@@ -13,7 +13,6 @@
 *.iml
 *.ipr
 .gitignore
-goRest
 
 ### Eclipse ###
 .apt_generated
