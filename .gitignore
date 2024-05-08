@@ -39,3 +39,5 @@ build/
 
 ### Mac OS ###
 .DS_Store
+/src/test/java/goRest/
+/src/test/java/goRest/
