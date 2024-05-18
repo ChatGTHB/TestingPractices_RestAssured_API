@@ -13,118 +13,114 @@ import static org.hamcrest.Matchers.lessThan;
 
 public class ReqresIn {
 
-    // Installation testi için bir Test metodu oluşturulur
+    // Kurulum testi için bir test metodu
     @Test
     public void installationTest() {
+        // Burada temel bir test oluşturabilirsiniz. Bu test kurulumun doğru yapıldığını kontrol eder.
         given()
-                // İstek öncesi ayarlamalar yapılır
-                // Örneğin, header ayarlamaları, authentication vb.
+                // İstek öncesi ayarlamalar yapılabilir (örneğin, başlıklar, kimlik doğrulama vb.)
 
                 .when()
-                // İstek gönderilir
-                // Örneğin, GET, POST, PUT, DELETE vb. gibi istekler yapılabilir
+                // İstek gönderilir (örneğin, GET, POST, PUT, DELETE vb.)
 
                 .then()
-        // İstek sonucu kontrol edilir
-        // Örneğin, yanıt kodu (status code) kontrolü, body kontrolü, zaman kontrolü vb.
+        // İstek sonucunun kontrolü yapılır (örneğin, yanıt kodu, gövde içeriği, yanıt süresi vb.)
         ;
     }
 
-    // Single User Testi için bir Test metodu oluşturulur
+    // Tek kullanıcı testi için bir test metodu
     @Test
     public void getSingleUserTest() {
+        // API'nın temel URI'si ayarlanır
         baseURI = "https://reqres.in/";
+
+        // Yanıttan email adresini almak için bir değişken
         String eMail =
 
-        given()
-                .pathParam("list", "users")
-                .pathParam("number", "2")
+                given()
+                        .pathParam("list", "users")  // İstek için path parametreleri ayarlanır
+                        .pathParam("number", "2")    // İstek için path parametreleri ayarlanır
 
-                .when()
-                // API'dan kullanıcı bilgisi alınır
-                // Örneğin, GET isteği yapılır ve belirli bir kullanıcının bilgileri alınır
-                .log().body() // İstek gövdesini loglar
-                .get("/api/{list}/{number}")
+                        .when()
+                        // Belirtilen endpoint'e GET isteği gönderilir
+                        .log().body() // İstek gövdesini loglar
+                        .get("/api/{list}/{number}")
 
+                        .then()
+                        // Yanıtın doğruluğu kontrol edilir
+                        .log().body() // Yanıt gövdesini loglar
+                        .statusCode(200) // Yanıt kodunun 200 (OK) olduğunu kontrol eder
+                        .body("data.email", equalTo("janet.weaver@reqres.in")) // Yanıttaki email adresinin beklenen değerle eşleştiğini kontrol eder
+                        .time(lessThan(1500L)) // Yanıt süresinin 1500 milisaniyeden az olduğunu kontrol eder
+                        .extract().path("data.email"); // Yanıttan email adresini çıkarır
 
-                .then()
-                // İstek sonucu kontrol edilir
-                // Örneğin, yanıt kodu (status code) kontrolü, body kontrolü, zaman kontrolü vb.
-                .log().body() // Yanıt gövdesini loglar
-                // .log().all() // Tüm yanıt bilgilerini loglar
-                .statusCode(200) // Yanıt kodunun 200 (OK) olmasını kontrol eder
-                .body("data.email", equalTo("janet.weaver@reqres.in")) // Yanıt gövdesindeki "data.email" alanının "janet.weaver@reqres.in" olmasını kontrol eder
-                .time(lessThan(1500L)) // Yanıt süresinin 1500 milisaniyeden az olmasını kontrol eder
-                //.time(greaterThan(1000L)) // Yanıt süresinin 1000 milisaniyeden fazla olmasını kontrol eder
-                .extract().path("data.email"); // Yanıt gövdesindeki "data.email" alanını çıkarır
-
-        System.out.println("eMail = " + eMail); // eMail değişkenini yazdırır
+        // Çıkarılan email adresini yazdır
+        System.out.println("eMail = " + eMail);
     }
 
-    // Users List Testi için bir Test metodu oluşturulur
+    // Kullanıcılar listesi testi için bir test metodu
     @Test
     public void getUsersListTest() {
-
-        // https://reqres.in/api/users?page=2
-
+        // API'nın temel URI'si ayarlanır
         baseURI = "https://reqres.in/";
 
+        // Yanıttan email adresleri listesini almak için bir değişken
         List<String> usersMailList =
 
-        given()
-                .param("page", 2)
-                .log().uri() // İstek URI'sini loglar
+                given()
+                        .param("page", 2) // İstek için query parametresi ayarlanır
+                        .log().uri() // İstek URI'sini loglar
 
-                .when()
-                // API'dan kullanıcı listesi alınır
-                // Örneğin, GET isteği yapılır ve belirli bir sayfadaki kullanıcı listesi alınır
-                .get("api/users")
+                        .when()
+                        // Belirtilen endpoint'e GET isteği gönderilir
+                        .get("api/users")
 
-                .then()
-                // İstek sonucu kontrol edilir
-                // Örneğin, yanıt kodu (status code) kontrolü, body kontrolü, zaman kontrolü vb.
-                .log().body() // Yanıt gövdesini loglar
-                .statusCode(200) // Yanıt kodunun 200 (OK) olmasını kontrol eder
-                .body("data[3].email", equalTo("byron.fields@reqres.in")) // Yanıt gövdesindeki "data[3].email" alanının "byron.fields@reqres.in" olmasını kontrol eder
-                //.body("data.email",hasItem("byron.fields@reqres.in"))
-                .extract().path("data.email"); // Yanıt gövdesindeki "data.email" alanını çıkarır
+                        .then()
+                        // Yanıtın doğruluğu kontrol edilir
+                        .log().body() // Yanıt gövdesini loglar
+                        .statusCode(200) // Yanıt kodunun 200 (OK) olduğunu kontrol eder
+                        .body("data[3].email", equalTo("byron.fields@reqres.in")) // Yanıttaki belirli bir email adresinin beklenen değerle eşleştiğini kontrol eder
+                        .extract().path("data.email"); // Yanıttan email adresleri listesini çıkarır
 
-        System.out.println("usersMailList = " + usersMailList); // usersMailList değişkenini yazdırır
+        // Çıkarılan email adresleri listesini yazdır
+        System.out.println("usersMailList = " + usersMailList);
     }
 
-    // Create User Testi için bir Test metodu oluşturulur
+    // Yeni kullanıcı oluşturma testi için bir test metodu
     @Test
     public void createUserTest() {
-
+        // Oluşturulacak kullanıcıyı temsil eden JSON string'i
         String user = "{\n" +
                 " \"name\": \"morpheus\",\n" +
                 " \"job\": \"leader\"\n" +
                 "}";
 
+        // API'nın temel URI'si ayarlanır
         baseURI = "https://reqres.in/";
 
-        Response incomingData=
+        // API'dan gelen yanıtı tutmak için bir değişken
+        Response incomingData =
 
-        given()
-                .pathParam("list","users")
-                .body(user)
-                .contentType(ContentType.JSON)
+                given()
+                        .pathParam("list", "users") // İstek için path parametreleri ayarlanır
+                        .body(user) // İstek gövdesi ayarlanır
+                        .contentType(ContentType.JSON) // İçerik tipi JSON olarak ayarlanır
 
-                .when()
-                // Yeni bir kullanıcı oluşturulur
-                // Örneğin, POST isteği yapılır ve yeni bir kullanıcı oluşturulur
-                .post("/api/{list}")
+                        .when()
+                        // Belirtilen endpoint'e POST isteği gönderilir
+                        .post("/api/{list}")
 
-                .then()
-                // İstek sonucu kontrol edilir
-                // Örneğin, yanıt kodu (status code) kontrolü, body kontrolü, zaman kontrolü vb.
-                .log().body() // Yanıt gövdesini loglar
-                .statusCode(201) // Yanıt kodunun 201 (Created) olmasını kontrol eder
-                .body("name",equalTo("morpheus")) // Yanıt gövdesindeki "name" alanının "morpheus" olmasını kontrol eder
-                .extract().response() ; // Yanıtı çıkarır
+                        .then()
+                        // Yanıtın doğruluğu kontrol edilir
+                        .log().body() // Yanıt gövdesini loglar
+                        .statusCode(201) // Yanıt kodunun 201 (Created) olduğunu kontrol eder
+                        .body("name", equalTo("morpheus")) // Yanıttaki ismin beklenen değerle eşleştiğini kontrol eder
+                        .extract().response(); // Yanıtı çıkarır
 
-        String userName=incomingData.path("name"); // Yanıt gövdesindeki "name" alanını alır
+        // Yanıttan kullanıcı adını çıkarır
+        String userName = incomingData.path("name");
 
-        System.out.println("userName = " + userName); // userName değişkenini yazdırır
+        // Çıkarılan kullanıcı adını yazdır
+        System.out.println("userName = " + userName);
     }
 }
