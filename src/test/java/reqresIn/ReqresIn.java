@@ -37,8 +37,7 @@ public class ReqresIn {
         // Yanıttan email adresini almak için bir değişken
         String eMail =
 
-                given()
-                        .pathParam("list", "users")  // İstek için path parametreleri ayarlanır
+                given().pathParam("list", "users")  // İstek için path parametreleri ayarlanır
                         .pathParam("number", "2")    // İstek için path parametreleri ayarlanır
 
                         .when()
@@ -67,8 +66,7 @@ public class ReqresIn {
         // Yanıttan email adresleri listesini almak için bir değişken
         List<String> usersMailList =
 
-                given()
-                        .param("page", 2) // İstek için query parametresi ayarlanır
+                given().param("page", 2) // İstek için query parametresi ayarlanır
                         .log().uri() // İstek URI'sini loglar
 
                         .when()
@@ -90,10 +88,7 @@ public class ReqresIn {
     @Test
     public void createUserTest() {
         // Oluşturulacak kullanıcıyı temsil eden JSON string'i
-        String user = "{\n" +
-                " \"name\": \"morpheus\",\n" +
-                " \"job\": \"leader\"\n" +
-                "}";
+        String user = "{\n" + " \"name\": \"morpheus\",\n" + " \"job\": \"leader\"\n" + "}";
 
         // API'nın temel URI'si ayarlanır
         baseURI = "https://reqres.in/";
@@ -101,8 +96,7 @@ public class ReqresIn {
         // API'dan gelen yanıtı tutmak için bir değişken
         Response incomingData =
 
-                given()
-                        .pathParam("list", "users") // İstek için path parametreleri ayarlanır
+                given().pathParam("list", "users") // İstek için path parametreleri ayarlanır
                         .body(user) // İstek gövdesi ayarlanır
                         .contentType(ContentType.JSON) // İçerik tipi JSON olarak ayarlanır
 
